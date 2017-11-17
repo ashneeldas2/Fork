@@ -20,7 +20,7 @@ int main() {
     printf("Child PID: %d. This child will sleep for %d seconds\n", getpid(), secs);
     sleep(secs);
     printf("Child %d finished!\n", getpid());
-    exit(secs);    
+    return secs;
   } else {        
     int status, child_pid = wait(&status);
     printf("Child with PID %d was asleep for %d seconds\n", child_pid, WEXITSTATUS(status));
