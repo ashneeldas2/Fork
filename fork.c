@@ -9,21 +9,19 @@ int main() {
         f = fork();
     }
     if (f == 0) {
-        printf("Child PID: %d\n", getpid());
-        srand(time(NULL));
-        sleep(rand() % 16 + 5);
-        printf("Process finished!\n");
-        exit(3);
+        srand(getpid());
+        int secs = rand() % 16 + 5;
+        printf("Child PID: %d. This child will sleep for %d seconds\n", getpid(), secs);
+        sleep(secs);
+        printf("Child %d finished!\n", getpid());
+        exit(secs);
     }
     else {
-        printf("Hi I'm a parent!\n");
+        printf("Hi I'm a parent! My name is %d\n", getpid());
         int status;
         int child_pid = wait(&status);
-        if (child_pid) {
-            if (WEXITSTATUS(status) == 3) {
-                printf("Child process completed with pid %d\n", child_pid);
-            }
-        }
+        printf("Child with PID %d was asleep for %d seconds\n", child_pid, WEXITSTATUS(status));
+        printf("Parent process %d is completed\n", getpid());
     }
     return 0;
 }
